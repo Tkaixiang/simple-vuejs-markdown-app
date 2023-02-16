@@ -1,34 +1,28 @@
 <script>
-import debounce from "lodash.debounce";
-import { marked } from "marked";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      value: "",
-      markDownValue: "",
-    };
+  computed: {
+    ...mapState(["value", "markDownValue"]), // Instead of defining an individual computed method for each state, we can use this
   },
   methods: {
-    onValueChange(e) {
-      this.value = e.target.value;
-      this.updateMarkDown(e.target.value);
-    },
-    updateMarkDown: debounce(function updateMarkdownValue(text) {
-      this.markDownValue = marked(text);
-      console.log(this.markDownValue);
-    }, 100),
-    resetText() {
-      this.value = "",
-      this.markDownValue = ""
-    }
-  },
+    ...mapActions(['onValueChange', 'resetText']),
+  }
 };
 </script>
 
 <template>
   <div class="overallDiv">
-    <div style="display: flex; flex-direction: column; width: 50%; align-items: center; justify-content: center; margin: 2ch;">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        align-items: center;
+        justify-content: center;
+        margin: 2ch;
+      "
+    >
       <button @click="resetText">Reset text</button>
       <textarea
         class="textAreaClass"
